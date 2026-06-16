@@ -1,0 +1,54 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // 1. Global Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // 2. Reusable Hardened Global Helpers
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    // Bootstrapped Admin check based on user's runtime information
+    function isAdmin() {
+      return isSignedIn() && request.auth.token.email == "joy@icantw.com" && request.auth.token.email_verified == true;
+    }
+
+    // strict validation helper
+    function isValidLeaderboardEntry(data) {
+      return data.keys().hasAll(['id', 'player_name', 'score', 'pikmin_type', 'date', 'play_time', 'star_rating', 'timestamp'])
+        && data.keys().size() == 8
+        && data.id is string && data.id.size() <= 128
+        && data.player_name is string && data.player_name.size() <= 100
+        && data.score is number && data.score >= 0 && data.score <= 1000000
+        && data.pikmin_type is string && data.pikmin_type.size() <= 32
+        && data.date is string && data.date.size() <= 32
+        && data.play_time is number && data.play_time >= 0 && data.play_time <= 86400
+        && data.star_rating is number && data.star_rating >= 1 && data.star_rating <= 3
+        && data.timestamp is number;
+    }
+
+    // 3. Leaderboard rules
+    match /leaderboard/{entryId} {
+      allow read: if true;
+      allow create: if isValidId(entryId) && isValidLeaderboardEntry(incoming());
+      allow update: if isValidId(entryId) && isValidLeaderboardEntry(incoming());
+      allow delete: if isValidId(entryId);
+    }
+  }
+}

@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400;1,600;1,700&family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+
+  /* Custom organic color scheme matching "Warm Organic / Cultural" */
+  --color-warm-bg: #FDFBF7;
+  --color-warm-text: #5A5A40;
+  --color-warm-accent: #F27D26;
+  --color-warm-sage: #89C09E;
+  --color-warm-light-sage: #A8D5BA;
+  --color-warm-clay: #D1C7B7;
+  --color-warm-sand: #E8E1D5;
+  --color-warm-dark-sand: #8C7E6A;
+}
+
+/* Custom styled Utilities */
+.crayon-border {
+  border-style: solid;
+  border-width: 4px;
+  border-image: radial-gradient(#8C7E6A 50%, transparent 100%) 1;
+  border-radius: 40px;
+}
+
+.hand-drawn-path {
+  background: linear-gradient(to bottom, #A8D5BA 0%, #89C09E 100%);
+  clip-path: polygon(0% 85%, 15% 82%, 35% 88%, 60% 83%, 85% 87%, 100% 80%, 100% 100%, 0% 100%);
+}
+
+.cloud {
+  background: white;
+  filter: blur(8px);
+  opacity: 0.6;
+  border-radius: 50%;
+}
+
+.spirit-shadow {
+  filter: drop-shadow(4px 4px 0px rgba(0,0,0,0.1));
+}
+
+.btn-shadow {
+  box-shadow: 0 6px 0 #D1C7B7;
+  transition: all 0.1s ease-in-out;
+}
+
+.btn-shadow:active {
+  transform: translateY(3px);
+  box-shadow: 0 3px 0 #D1C7B7;
+}
+
+/* Base Body settings */
+body {
+  background-color: #FDFBF7;
+  color: #5A5A40;
+  font-family: "Inter", sans-serif;
+  margin: 0;
+}

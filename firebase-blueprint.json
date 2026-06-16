@@ -1,0 +1,26 @@
+{
+  "entities": {
+    "LeaderboardEntry": {
+      "title": "Leaderboard Entry",
+      "description": "An entry in the global real-time leaderboard",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique score identifier" },
+        "player_name": { "type": "string", "description": "Name of the player" },
+        "score": { "type": "number", "description": "Final score achieved in infinite mode" },
+        "pikmin_type": { "type": "string", "description": "Pikmin color runner used" },
+        "date": { "type": "string", "description": "Date of achievement" },
+        "play_time": { "type": "number", "description": "Duration of play in seconds" },
+        "star_rating": { "type": "number", "description": "Star rating metric 1-3" },
+        "timestamp": { "type": "number", "description": "Creation timestamp epoch" }
+      },
+      "required": ["id", "player_name", "score", "pikmin_type", "date", "play_time", "star_rating", "timestamp"]
+    }
+  },
+  "firestore": {
+    "leaderboard/{entryId}": {
+      "schema": "#/entities/LeaderboardEntry",
+      "description": "Collection of leaderboard submissions"
+    }
+  }
+}

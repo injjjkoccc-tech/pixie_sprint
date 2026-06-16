@@ -1,0 +1,8 @@
+{
+  "name": "微光元素精靈的奇幻旅程",
+  "description": "溫暖治癒的日系可愛風橫向卷軸小遊戲！控制胖嘟嘟的火、水、雷、引力、蝶、毒、晶岩等元素精靈收集精華，解鎖明信片與全伺服器排行榜！",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
