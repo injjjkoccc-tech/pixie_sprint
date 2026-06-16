@@ -23,20 +23,25 @@ import {
   orderBy,
   limit,
 } from "firebase/firestore";
-import firebaseConfig from "../../firebase-applet-config.json";
+// 1. Initialize Firebase Core with Environment Variable support and JSON fallback
 import { LeaderboardEntry } from "../types";
 
-// 1. Initialize Firebase Core with Environment Variable support and JSON fallback
+// Safely load local config via import.meta.glob to prevent compile errors when ignored on GitHub
+const configModules = (import.meta as any).glob("../../firebase-applet-config.json", { eager: true }) || {};
+const configPaths = Object.keys(configModules);
+const configModule: any = configPaths.length > 0 ? configModules[configPaths[0]] : null;
+const firebaseConfig: any = configModule ? (configModule.default || configModule) : {};
+
 const metaEnv = (import.meta as any).env || {};
 const resolvedConfig = {
-  apiKey: metaEnv.VITE_FIREBASE_API_KEY || firebaseConfig.apiKey,
-  authDomain: metaEnv.VITE_FIREBASE_AUTH_DOMAIN || firebaseConfig.authDomain,
-  projectId: metaEnv.VITE_FIREBASE_PROJECT_ID || firebaseConfig.projectId,
-  storageBucket: metaEnv.VITE_FIREBASE_STORAGE_BUCKET || firebaseConfig.storageBucket,
-  messagingSenderId: metaEnv.VITE_FIREBASE_MESSAGING_SENDER_ID || firebaseConfig.messagingSenderId,
-  appId: metaEnv.VITE_FIREBASE_APP_ID || firebaseConfig.appId,
-  measurementId: metaEnv.VITE_FIREBASE_MEASUREMENT_ID || firebaseConfig.measurementId,
-  firestoreDatabaseId: metaEnv.VITE_FIREBASE_DATABASE_ID || firebaseConfig.firestoreDatabaseId,
+  apiKey: metaEnv.VITE_FIREBASE_API_KEY || firebaseConfig.apiKey || "",
+  authDomain: metaEnv.VITE_FIREBASE_AUTH_DOMAIN || firebaseConfig.authDomain || "",
+  projectId: metaEnv.VITE_FIREBASE_PROJECT_ID || firebaseConfig.projectId || "",
+  storageBucket: metaEnv.VITE_FIREBASE_STORAGE_BUCKET || firebaseConfig.storageBucket || "",
+  messagingSenderId: metaEnv.VITE_FIREBASE_MESSAGING_SENDER_ID || firebaseConfig.messagingSenderId || "",
+  appId: metaEnv.VITE_FIREBASE_APP_ID || firebaseConfig.appId || "",
+  measurementId: metaEnv.VITE_FIREBASE_MEASUREMENT_ID || firebaseConfig.measurementId || "",
+  firestoreDatabaseId: metaEnv.VITE_FIREBASE_DATABASE_ID || firebaseConfig.firestoreDatabaseId || "",
 };
 
 const app = initializeApp(resolvedConfig);
